@@ -1,0 +1,327 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Хранилище testModel" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityContainer Name="Хранилище testModelContainer">
+          <EntitySet Name="Station" EntityType="Хранилище testModel.Station" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Station_Track" EntityType="Хранилище testModel.Station_Track" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Track" EntityType="Хранилище testModel.Track" store:Type="Tables" Schema="dbo" />
+          <AssociationSet Name="FK_Station_Track_Station" Association="Хранилище testModel.FK_Station_Track_Station">
+            <End Role="Station" EntitySet="Station" />
+            <End Role="Station_Track" EntitySet="Station_Track" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Station_Track_Station1" Association="Хранилище testModel.FK_Station_Track_Station1">
+            <End Role="Station" EntitySet="Station" />
+            <End Role="Station_Track" EntitySet="Station_Track" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Station_Track_Track" Association="Хранилище testModel.FK_Station_Track_Track">
+            <End Role="Track" EntitySet="Track" />
+            <End Role="Station_Track" EntitySet="Station_Track" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Station">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="comment" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Station_Track">
+          <Key>
+            <PropertyRef Name="idstation_start" />
+            <PropertyRef Name="idstation_stop" />
+            <PropertyRef Name="idtrack" />
+          </Key>
+          <Property Name="idstation_start" Type="int" Nullable="false" />
+          <Property Name="idstation_stop" Type="int" Nullable="false" />
+          <Property Name="idtrack" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Track">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="weight" Type="int" Nullable="false" />
+          <Property Name="comment" Type="nvarchar(max)" />
+        </EntityType>
+        <Association Name="FK_Station_Track_Station">
+          <End Role="Station" Type="Хранилище testModel.Station" Multiplicity="1" />
+          <End Role="Station_Track" Type="Хранилище testModel.Station_Track" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Station">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Station_Track">
+              <PropertyRef Name="idstation_start" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Station_Track_Station1">
+          <End Role="Station" Type="Хранилище testModel.Station" Multiplicity="1" />
+          <End Role="Station_Track" Type="Хранилище testModel.Station_Track" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Station">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Station_Track">
+              <PropertyRef Name="idstation_stop" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Station_Track_Track">
+          <End Role="Track" Type="Хранилище testModel.Track" Multiplicity="1" />
+          <End Role="Station_Track" Type="Хранилище testModel.Station_Track" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Track">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Station_Track">
+              <PropertyRef Name="idtrack" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="fn_diagramobjects" ReturnType="int" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="sp_alterdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="version" Type="int" Mode="In" />
+          <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+        </Function>
+        <Function Name="sp_creatediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="version" Type="int" Mode="In" />
+          <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+        </Function>
+        <Function Name="sp_dropdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_helpdiagramdefinition" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_helpdiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_renamediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="new_diagramname" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="sp_upgraddiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="testModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="DBEntity" p1:LazyLoadingEnabled="true">
+          <EntitySet Name="Station" EntityType="testModel.Station" />
+          <EntitySet Name="Track" EntityType="testModel.Track" />
+          <EntitySet Name="Station_Track" EntityType="testModel.Station_Track" />
+          <AssociationSet Name="FK_Station_Track_Station" Association="testModel.FK_Station_Track_Station">
+            <End Role="Station" EntitySet="Station" />
+            <End Role="Station_Track" EntitySet="Station_Track" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Station_Track_Station1" Association="testModel.FK_Station_Track_Station1">
+            <End Role="Station" EntitySet="Station" />
+            <End Role="Station_Track" EntitySet="Station_Track" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Station_Track_Track" Association="testModel.FK_Station_Track_Track">
+            <End Role="Track" EntitySet="Track" />
+            <End Role="Station_Track" EntitySet="Station_Track" />
+          </AssociationSet>
+          <FunctionImport Name="sp_alterdiagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="version" Mode="In" Type="Int32" />
+            <Parameter Name="definition" Mode="In" Type="Binary" />
+          </FunctionImport>
+          <FunctionImport Name="sp_creatediagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="version" Mode="In" Type="Int32" />
+            <Parameter Name="definition" Mode="In" Type="Binary" />
+          </FunctionImport>
+          <FunctionImport Name="sp_dropdiagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_helpdiagramdefinition" ReturnType="Collection(testModel.sp_helpdiagramdefinition_Result)">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_helpdiagrams" ReturnType="Collection(testModel.sp_helpdiagrams_Result)">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_renamediagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="new_diagramname" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_upgraddiagrams" />
+        </EntityContainer>
+        <EntityType Name="Station">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="comment" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="Station_Track" Relationship="testModel.FK_Station_Track_Station" FromRole="Station" ToRole="Station_Track" />
+          <NavigationProperty Name="Station_Track1" Relationship="testModel.FK_Station_Track_Station1" FromRole="Station" ToRole="Station_Track" />
+        </EntityType>
+        <EntityType Name="Track">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="weight" Type="Int32" Nullable="false" />
+          <Property Name="comment" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="Station_Track" Relationship="testModel.FK_Station_Track_Track" FromRole="Track" ToRole="Station_Track" />
+        </EntityType>
+        <EntityType Name="Station_Track">
+          <Key>
+            <PropertyRef Name="idstation_start" />
+            <PropertyRef Name="idstation_stop" />
+            <PropertyRef Name="idtrack" />
+          </Key>
+          <Property Type="Int32" Name="idstation_start" Nullable="false" />
+          <Property Type="Int32" Name="idstation_stop" Nullable="false" />
+          <Property Type="Int32" Name="idtrack" Nullable="false" />
+          <NavigationProperty Name="Station" Relationship="testModel.FK_Station_Track_Station" FromRole="Station_Track" ToRole="Station" />
+          <NavigationProperty Name="Station1" Relationship="testModel.FK_Station_Track_Station1" FromRole="Station_Track" ToRole="Station" />
+          <NavigationProperty Name="Track" Relationship="testModel.FK_Station_Track_Track" FromRole="Station_Track" ToRole="Track" />
+        </EntityType>
+        <Association Name="FK_Station_Track_Station">
+          <End Type="testModel.Station" Role="Station" Multiplicity="1" />
+          <End Type="testModel.Station_Track" Role="Station_Track" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Station">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Station_Track">
+              <PropertyRef Name="idstation_start" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Station_Track_Station1">
+          <End Type="testModel.Station" Role="Station" Multiplicity="1" />
+          <End Type="testModel.Station_Track" Role="Station_Track" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Station">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Station_Track">
+              <PropertyRef Name="idstation_stop" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Station_Track_Track">
+          <End Type="testModel.Track" Role="Track" Multiplicity="1" />
+          <End Type="testModel.Station_Track" Role="Station_Track" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Track">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Station_Track">
+              <PropertyRef Name="idtrack" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <ComplexType Name="sp_helpdiagramdefinition_Result">
+          <Property Type="Int32" Name="version" Nullable="true" />
+          <Property Type="Binary" Name="definition" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="sp_helpdiagrams_Result">
+          <Property Type="String" Name="Database" Nullable="true" MaxLength="128" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="128" />
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
+          <Property Type="Int32" Name="OwnerID" Nullable="false" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище testModelContainer" CdmEntityContainer="DBEntity">
+          <EntitySetMapping Name="Station">
+            <EntityTypeMapping TypeName="testModel.Station">
+              <MappingFragment StoreEntitySet="Station">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="comment" ColumnName="comment" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Track">
+            <EntityTypeMapping TypeName="testModel.Track">
+              <MappingFragment StoreEntitySet="Track">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="weight" ColumnName="weight" />
+                <ScalarProperty Name="comment" ColumnName="comment" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Station_Track">
+            <EntityTypeMapping TypeName="testModel.Station_Track">
+              <MappingFragment StoreEntitySet="Station_Track">
+                <ScalarProperty Name="idtrack" ColumnName="idtrack" />
+                <ScalarProperty Name="idstation_stop" ColumnName="idstation_stop" />
+                <ScalarProperty Name="idstation_start" ColumnName="idstation_start" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_alterdiagram" FunctionName="Хранилище testModel.sp_alterdiagram" />
+          <FunctionImportMapping FunctionImportName="sp_creatediagram" FunctionName="Хранилище testModel.sp_creatediagram" />
+          <FunctionImportMapping FunctionImportName="sp_dropdiagram" FunctionName="Хранилище testModel.sp_dropdiagram" />
+          <FunctionImportMapping FunctionImportName="sp_helpdiagramdefinition" FunctionName="Хранилище testModel.sp_helpdiagramdefinition">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="testModel.sp_helpdiagramdefinition_Result">
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_helpdiagrams" FunctionName="Хранилище testModel.sp_helpdiagrams">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="testModel.sp_helpdiagrams_Result">
+                <ScalarProperty Name="Database" ColumnName="Database" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Owner" ColumnName="Owner" />
+                <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="Хранилище testModel.sp_renamediagram" />
+          <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="Хранилище testModel.sp_upgraddiagrams" />
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

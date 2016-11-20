@@ -1,0 +1,113 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="Хранилище testModel" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="Хранилище testModelContainer">
+    <EntitySet Name="Station" EntityType="Хранилище testModel.Station" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Station_Track" EntityType="Хранилище testModel.Station_Track" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Track" EntityType="Хранилище testModel.Track" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="FK_Station_Track_Station" Association="Хранилище testModel.FK_Station_Track_Station">
+      <End Role="Station" EntitySet="Station" />
+      <End Role="Station_Track" EntitySet="Station_Track" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Station_Track_Station1" Association="Хранилище testModel.FK_Station_Track_Station1">
+      <End Role="Station" EntitySet="Station" />
+      <End Role="Station_Track" EntitySet="Station_Track" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Station_Track_Track" Association="Хранилище testModel.FK_Station_Track_Track">
+      <End Role="Track" EntitySet="Track" />
+      <End Role="Station_Track" EntitySet="Station_Track" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Station">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="comment" Type="nvarchar(max)" />
+  </EntityType>
+  <EntityType Name="Station_Track">
+    <Key>
+      <PropertyRef Name="idstation_start" />
+      <PropertyRef Name="idstation_stop" />
+      <PropertyRef Name="idtrack" />
+    </Key>
+    <Property Name="idstation_start" Type="int" Nullable="false" />
+    <Property Name="idstation_stop" Type="int" Nullable="false" />
+    <Property Name="idtrack" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Track">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="weight" Type="int" Nullable="false" />
+    <Property Name="comment" Type="nvarchar(max)" />
+  </EntityType>
+  <Association Name="FK_Station_Track_Station">
+    <End Role="Station" Type="Хранилище testModel.Station" Multiplicity="1" />
+    <End Role="Station_Track" Type="Хранилище testModel.Station_Track" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Station">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Station_Track">
+        <PropertyRef Name="idstation_start" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Station_Track_Station1">
+    <End Role="Station" Type="Хранилище testModel.Station" Multiplicity="1" />
+    <End Role="Station_Track" Type="Хранилище testModel.Station_Track" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Station">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Station_Track">
+        <PropertyRef Name="idstation_stop" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Station_Track_Track">
+    <End Role="Track" Type="Хранилище testModel.Track" Multiplicity="1" />
+    <End Role="Station_Track" Type="Хранилище testModel.Station_Track" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Track">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Station_Track">
+        <PropertyRef Name="idtrack" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Function Name="fn_diagramobjects" ReturnType="int" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="sp_alterdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+    <Parameter Name="version" Type="int" Mode="In" />
+    <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+  </Function>
+  <Function Name="sp_creatediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+    <Parameter Name="version" Type="int" Mode="In" />
+    <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+  </Function>
+  <Function Name="sp_dropdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_helpdiagramdefinition" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_helpdiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_renamediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+    <Parameter Name="new_diagramname" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="sp_upgraddiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+</Schema>

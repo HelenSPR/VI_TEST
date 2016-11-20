@@ -1,0 +1,149 @@
+﻿@{
+    ViewBag.Title = "VI TEST";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<script>
+
+    Ext.onReady(function ()
+    {
+        Ext.define('Station', {
+            extend: 'Ext.data.Model',
+            fields: [
+                { name: 'id', type: 'int' },
+                { name: 'name', type: 'string' }
+            ]
+        });
+
+        Ext.define('StationStore', {
+            extend: 'Ext.data.Store',
+            model: 'Station',
+            proxy: {
+                type: 'ajax',
+                url: '\\Data\\',
+                reader: {
+                    type: 'json',
+                    rootProperty: 'data'
+                }
+            },
+            
+            
+
+            autoLoad: true
+        });
+        var ComboStore = Ext.create('StationStore');
+        ComboStore.load();
+
+
+        Ext.create('Ext.panel.Panel', {
+            title: 'Поиск кратчайшего пути между станциями',
+            width: 300,
+            height: 300,
+            bodyPadding: 15,
+            style: 'margin: 40px',
+            items: [
+            {
+               id : 'combostart',
+                xtype: 'combobox',
+                fieldLabel: 'Выберите начальную станцию',
+                store: ComboStore,
+                autoWidth: true,
+                valueField: "id",
+                displayField: "name",
+                emptyText: "Select a make...",
+                loadingText: "Searching...",
+                editable: false,
+                anchor: '100%',
+                fields:
+                    [
+                        'id',   //числовое значение - номер элемента
+                        'name' //текст
+                    ],
+                    
+                listeners: {
+                    select: function(combo, record, index) {
+                        Ext.getCmp('resultlabel').setText('- ');  // перевыбор обнуляет результат
+                    }
+                },
+
+                afterrender: function (combo) {
+                    combo.list.setSize('auto', 0);
+                    combo.innerList.setSize('auto', 0);
+                },
+
+                queryMode: 'local'
+            },
+
+            {
+                id: 'combostop',
+                xtype: 'combobox',
+                fieldLabel: 'Выберите конечную станцию',
+                autoWidth: true,
+                store: ComboStore,
+                width : 300,
+                valueField: "id",
+                displayField: "name", 
+                emptyText: "Select a make...",
+                loadingText: "Searching...",
+                editable: false,
+                width: '100%',
+                fields:
+                    [
+                        'id',   //числовое значение - номер элемента
+                        'name' //текст
+                    ],
+                listeners: { // перевыбор обнуляет результат
+                    select: function(combo, record, index) {
+                        Ext.getCmp('resultlabel').setText('- ');
+                    }
+                },
+                afterrender: function(combo){                   
+                    combo.list.setSize('auto', 0);
+                    combo.innerList.setSize('auto', 0);
+                },
+
+                queryMode: 'local'
+            },
+            {
+                xtype: 'label',
+                id: 'resultlabel',
+                text: 'Кратчайший путь: '
+            }
+            ],
+            fbar: ['->', { 
+                xtype: 'button',
+                width: 150,
+                text: 'Найди короткий путь!',
+                handler: function () {
+                    var iComboStart = Ext.getCmp('combostart').getValue();
+                    var iComboStop = Ext.getCmp('combostop').getValue();
+
+                    if (iComboStart != null && iComboStop != null) {
+                        Ext.Ajax.request({
+                            //Data/?id1=32&id2=32
+                            url: '\\Data\\GetShort\\?id1=' + iComboStart + "&id2=" + iComboStop, // сформируем запрос
+                            success: function (response, options) {
+                                Ext.getCmp('resultlabel').setText('Кратчайший путь  ' + " : " + response.responseText);
+                            },
+                            failure: function (response, options) {
+                                Ext.getCmp('resultlabel')
+                                    .setText('Поздравляем! Вы стали 1000 победителем и нашли наш баг!'); //шутка юмора
+                            }
+                        });
+                    }
+                    else
+                        Ext.getCmp('resultlabel').setText('Нужно выбрать конечную и начальную станции  ' );
+
+                    
+                },
+
+
+            }],
+            renderTo: Ext.getBody()
+        });
+    })
+   
+
+</script>
+

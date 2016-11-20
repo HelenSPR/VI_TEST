@@ -1,0 +1,129 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="testModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="DBEntity" p1:LazyLoadingEnabled="true">
+    <EntitySet Name="Station" EntityType="testModel.Station" />
+    <EntitySet Name="Track" EntityType="testModel.Track" />
+    <EntitySet Name="Station_Track" EntityType="testModel.Station_Track" />
+    <AssociationSet Name="FK_Station_Track_Station" Association="testModel.FK_Station_Track_Station">
+      <End Role="Station" EntitySet="Station" />
+      <End Role="Station_Track" EntitySet="Station_Track" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Station_Track_Station1" Association="testModel.FK_Station_Track_Station1">
+      <End Role="Station" EntitySet="Station" />
+      <End Role="Station_Track" EntitySet="Station_Track" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Station_Track_Track" Association="testModel.FK_Station_Track_Track">
+      <End Role="Track" EntitySet="Track" />
+      <End Role="Station_Track" EntitySet="Station_Track" />
+    </AssociationSet>
+    <FunctionImport Name="sp_alterdiagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+      <Parameter Name="version" Mode="In" Type="Int32" />
+      <Parameter Name="definition" Mode="In" Type="Binary" />
+    </FunctionImport>
+    <FunctionImport Name="sp_creatediagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+      <Parameter Name="version" Mode="In" Type="Int32" />
+      <Parameter Name="definition" Mode="In" Type="Binary" />
+    </FunctionImport>
+    <FunctionImport Name="sp_dropdiagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_helpdiagramdefinition" ReturnType="Collection(testModel.sp_helpdiagramdefinition_Result)">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_helpdiagrams" ReturnType="Collection(testModel.sp_helpdiagrams_Result)">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_renamediagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+      <Parameter Name="new_diagramname" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_upgraddiagrams" />
+  </EntityContainer>
+  <EntityType Name="Station">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="name" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="comment" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <NavigationProperty Name="Station_Track" Relationship="testModel.FK_Station_Track_Station" FromRole="Station" ToRole="Station_Track" />
+    <NavigationProperty Name="Station_Track1" Relationship="testModel.FK_Station_Track_Station1" FromRole="Station" ToRole="Station_Track" />
+  </EntityType>
+  <EntityType Name="Track">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="weight" Type="Int32" Nullable="false" />
+    <Property Name="comment" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <NavigationProperty Name="Station_Track" Relationship="testModel.FK_Station_Track_Track" FromRole="Track" ToRole="Station_Track" />
+  </EntityType>
+  <EntityType Name="Station_Track">
+    <Key>
+      <PropertyRef Name="idstation_start" />
+      <PropertyRef Name="idstation_stop" />
+      <PropertyRef Name="idtrack" />
+    </Key>
+    <Property Type="Int32" Name="idstation_start" Nullable="false" />
+    <Property Type="Int32" Name="idstation_stop" Nullable="false" />
+    <Property Type="Int32" Name="idtrack" Nullable="false" />
+    <NavigationProperty Name="Station" Relationship="testModel.FK_Station_Track_Station" FromRole="Station_Track" ToRole="Station" />
+    <NavigationProperty Name="Station1" Relationship="testModel.FK_Station_Track_Station1" FromRole="Station_Track" ToRole="Station" />
+    <NavigationProperty Name="Track" Relationship="testModel.FK_Station_Track_Track" FromRole="Station_Track" ToRole="Track" />
+  </EntityType>
+  <Association Name="FK_Station_Track_Station">
+    <End Type="testModel.Station" Role="Station" Multiplicity="1" />
+    <End Type="testModel.Station_Track" Role="Station_Track" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Station">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Station_Track">
+        <PropertyRef Name="idstation_start" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Station_Track_Station1">
+    <End Type="testModel.Station" Role="Station" Multiplicity="1" />
+    <End Type="testModel.Station_Track" Role="Station_Track" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Station">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Station_Track">
+        <PropertyRef Name="idstation_stop" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Station_Track_Track">
+    <End Type="testModel.Track" Role="Track" Multiplicity="1" />
+    <End Type="testModel.Station_Track" Role="Station_Track" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Track">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Station_Track">
+        <PropertyRef Name="idtrack" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <ComplexType Name="sp_helpdiagramdefinition_Result">
+    <Property Type="Int32" Name="version" Nullable="true" />
+    <Property Type="Binary" Name="definition" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="sp_helpdiagrams_Result">
+    <Property Type="String" Name="Database" Nullable="true" MaxLength="128" />
+    <Property Type="String" Name="Name" Nullable="false" MaxLength="128" />
+    <Property Type="Int32" Name="ID" Nullable="false" />
+    <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
+    <Property Type="Int32" Name="OwnerID" Nullable="false" />
+  </ComplexType>
+</Schema>
