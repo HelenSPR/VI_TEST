@@ -9,13 +9,13 @@ namespace VI_Test.Models
     /// <summary>
     /// Класс, реализующий ребро
     /// </summary>
-    public class Rebro
+    public class Edge
     {
         public Point FirstPoint { get; private set; }
         public Point SecondPoint { get; private set; }
         public float Weight { get; private set; }
 
-        public Rebro(Point first, Point second, float valueOfWeight)
+        public Edge(Point first, Point second, float valueOfWeight)
         {
             FirstPoint = first;
             SecondPoint = second;
@@ -54,40 +54,38 @@ namespace VI_Test.Models
 
     }
 
-    class DekstraAlgorim
+    class Dekstra
     {
 
         public Point[] points { get; private set; }
-        public Rebro[] rebra { get; private set; }
+        public Edge[] edges { get; private set; }
         public Point BeginPoint { get; private set; }
 
-        public DekstraAlgorim(Point[] pointsOfgrath, Rebro[] rebraOfgrath)
+        public Dekstra(Point[] points, Edge[] edges)
         {
-            points = pointsOfgrath;
-            rebra = rebraOfgrath;
+            this.points = points;
+            this.edges = edges;
         }
+
         /// <summary>
         /// Запуск алгоритма расчета
         /// </summary>
-        /// <param name="beginp"></param>
-        public void AlgoritmRun(int idstart)
+        /// <param name="idstart"></param>
+        public void Run(int idstart)
         {
-            Point beginp = Get(idstart);
+            Point input = Get(idstart);
 
-            if (this.points.Count() == 0 || this.rebra.Count() == 0)
+            if (this.points.Count() > 0 && this.edges.Count() > 0)
             {
-                return;
-            }
-            else
-            {
-                BeginPoint = beginp;
-                OneStep(beginp);
+                BeginPoint = input;
+                Step(input);
+
                 foreach (Point point in points)
                 {
-                    Point anotherP = GetAnotherUncheckedPoint();
-                    if (anotherP != null)
+                    Point NextPoint = GetUncheckedPoint();
+                    if (NextPoint != null)
                     {
-                        OneStep(anotherP);
+                        Step(NextPoint);
                     }
                     else
                     {
@@ -102,13 +100,13 @@ namespace VI_Test.Models
         /// Метод, делающий один шаг алгоритма. Принимает на вход вершину
         /// </summary>
         /// <param name="beginpoint"></param>
-        public void OneStep(Point beginpoint)
+        public void Step(Point beginpoint)
         {
             foreach (Point nextp in Pred(beginpoint))
             {
                 if (nextp.IsChecked == false)//не отмечена
                 {
-                    float newmetka = beginpoint.ValueMetka + GetMyRebro(nextp, beginpoint).Weight;
+                    float newmetka = beginpoint.ValueMetka + GetEdge(nextp, beginpoint).Weight;
                     if (nextp.ValueMetka > newmetka)
                     {
                         nextp.ValueMetka = newmetka;
@@ -129,8 +127,8 @@ namespace VI_Test.Models
         /// <returns></returns>
         private IEnumerable<Point> Pred(Point currpoint)
         {
-            IEnumerable<Point> firstpoints = from ff in rebra where ff.FirstPoint == currpoint select ff.SecondPoint;
-            IEnumerable<Point> secondpoints = from sp in rebra where sp.SecondPoint == currpoint select sp.FirstPoint;
+            IEnumerable<Point> firstpoints = from ff in edges where ff.FirstPoint == currpoint select ff.SecondPoint;
+            IEnumerable<Point> secondpoints = from sp in edges where sp.SecondPoint == currpoint select sp.FirstPoint;
             IEnumerable<Point> totalpoints = firstpoints.Concat<Point>(secondpoints);
             return totalpoints;
         }
@@ -140,9 +138,9 @@ namespace VI_Test.Models
         /// <param name="a"></param>
         /// <param name="b"></param>
         /// <returns></returns>
-        private Rebro GetMyRebro(Point a, Point b)
+        private Edge GetEdge(Point a, Point b)
         {//ищем ребро по 2 точкам
-            IEnumerable<Rebro> myr = from reb in rebra where (reb.FirstPoint == a & reb.SecondPoint == b) || (reb.SecondPoint == a & reb.FirstPoint == b) select reb;
+            IEnumerable<Edge> myr = from reb in edges where (reb.FirstPoint == a & reb.SecondPoint == b) || (reb.SecondPoint == a & reb.FirstPoint == b) select reb;
             if (myr.Count() > 1 || myr.Count() == 0)
             {
                 return null;
@@ -156,7 +154,7 @@ namespace VI_Test.Models
         /// Получаем очередную неотмеченную вершину, "ближайшую" к заданной.
         /// </summary>
         /// <returns></returns>
-        private Point GetAnotherUncheckedPoint()
+        private Point GetUncheckedPoint()
         {
             IEnumerable<Point> pointsuncheck = from p in points where p.IsChecked == false select p;
             if (pointsuncheck.Count() != 0)
@@ -211,7 +209,7 @@ namespace VI_Test.Models
     static class PrintGrath
     {
       
-        public static List<string> PrintAllMinPaths(DekstraAlgorim da)
+        public static List<string> PrintAllMinPaths(Dekstra da)
         {
             List<string> retListOfPointsAndPaths = new List<string>();
             foreach (Point p in da.points)

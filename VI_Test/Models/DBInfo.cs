@@ -63,9 +63,9 @@ namespace VI_Test.Models
         /// </summary>
         /// <param name="p"></param>
         /// <returns></returns>
-        public static VI_Test.Models.Rebro[] GetRebro(Point[] p)
+        public static VI_Test.Models.Edge[] GetRebro(Point[] p)
         {
-            List<Rebro> result = new List<Rebro>();
+            List<Edge> result = new List<Edge>();
             List<Point> pp = p.ToList<Point>();
 
             using (DBEntity db = new DBEntity())
@@ -79,7 +79,7 @@ namespace VI_Test.Models
                 {
                     Point start = pp.Where(o => o.ValueMetka == q.start).FirstOrDefault();
                     Point stop = pp.Where(o => o.ValueMetka == q.stop).FirstOrDefault();
-                    Rebro r = new Rebro(start, stop, q.weight);
+                    Edge r = new Edge(start, stop, q.weight);
                     result.Add(r);
                 }
             }
@@ -97,13 +97,13 @@ namespace VI_Test.Models
         {
             string result = string.Empty;
             Point[] p = GetPoint();
-            Rebro[] r = GetRebro(p);
+            Edge[] r = GetRebro(p);
 
-            DekstraAlgorim alg = new DekstraAlgorim(p, r); // создание экземпляра для расчета
+            Dekstra alg = new Dekstra(p, r); // создание экземпляра для расчета
 
             try
             {
-                alg.AlgoritmRun(idstart);           // вызов алгоритма расчета
+                alg.Run(idstart);           // вызов алгоритма расчета
                 List<string> lr = PrintGrath.PrintAllMinPaths(alg);     // результат
             }
             catch

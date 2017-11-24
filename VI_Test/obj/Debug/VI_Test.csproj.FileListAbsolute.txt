@@ -39,3 +39,5 @@ D:\Рабочие тесты\VI_Test\VI_Test\bin\ru\System.Web.WebPages.Razor.re
 D:\Рабочие тесты\VI_Test\VI_Test\obj\Debug\VI_Test.dll
 D:\Рабочие тесты\VI_Test\VI_Test\obj\Debug\VI_Test.pdb
 D:\Рабочие тесты\VI_Test\VI_Test\obj\Debug\VI_Test.csprojResolveAssemblyReference.cache
+D:\Рабочие тесты\VI_Test\VI_Test\bin\VI_Test.dll.config
+D:\Рабочие тесты\VI_Test\VI_Test\obj\Debug\VI_Test.csproj.CoreCompileInputs.cache
